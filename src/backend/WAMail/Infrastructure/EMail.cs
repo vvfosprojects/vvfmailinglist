@@ -10,18 +10,16 @@ namespace WAMail.Infrastructure
 {
     public class EMail
     {
-        public string FromName { get; set; }
-        public string FromEmail { get; set; }
-        public string Message { get; set; }
+        public string Body { get; set; }
+        public string To { get; set; }
+        public string DisplayName { get; set; }
+        public string Subject { get; set; }
         public async Task<Result> Send()
         {
-
-            var body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
             var message = new MailMessage();
-            message.To.Add(new MailAddress("recipient@gmail.com"));  // replace with valid value  
-            message.From = new MailAddress("sender@outlook.com");  // replace with valid value 
-            message.Subject = "Your email subject";
-            message.Body = string.Format(body, this.FromName, this.FromEmail, this.Message);
+            message.To.Add(new MailAddress(this.To, this.DisplayName));
+            message.Subject = this.Subject;
+            message.Body = this.Body;
             message.IsBodyHtml = true;
             using (var smtp = new SmtpClient())
             {

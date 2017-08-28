@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -15,20 +16,25 @@ namespace WAMail.Controllers
         [HttpGet]
         public string[] NomiLista()
         {
-            var RetCode = new string[] { "pippo", "pluto" };
+            var RetCode = new string[] { "Mario Rossi", "Giuseppe Verdi", "Alessandro Manzoni" };
             return RetCode;
         }
 
         [HttpPost]
-        public async Task<HttpResponseMessage> InviaMail(List<ListaMail> listaMail)
+        public async Task<HttpResponseMessage> InviaMail(ListaMail listaMail)
         {
-            var mail = new EMail();
+            var DelaySend = Convert.ToInt16(ConfigurationManager.AppSettings["DelayMail"]);
+
             var result = new Result(false);
             var status = HttpStatusCode.InternalServerError;
-            foreach(var item in listaMail)
+
+            var mail = new EMail();
+            mail.Body = listaMail.TestoMail;
+            mail.Subject = listaMail.Oggetto;
+            foreach(var item in listaMail.Emails)
             {
-                await Task.Delay(300);
-               
+                mail.To = item;
+                await Task.Delay(DelaySend);
                 var mResult = await mail.Send();           
             }
 
