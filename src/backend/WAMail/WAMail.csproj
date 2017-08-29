@@ -86,13 +86,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\ManageMailController.cs" />
+    <Compile Include="Controllers\EmailManagerController.cs" />
+    <Compile Include="Controllers\ListManagerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\EMail.cs" />
+    <Compile Include="Infrastructure\Persistence\IDeleteMailingList.cs" />
+    <Compile Include="Infrastructure\Persistence\IGetMailingList.cs" />
+    <Compile Include="Infrastructure\Persistence\IGetMailingListById.cs" />
+    <Compile Include="Infrastructure\Persistence\ISaveMailingList.cs" />
+    <Compile Include="Infrastructure\Persistence\MailingList.cs" />
+    <Compile Include="Infrastructure\Persistence\MailingList_InMemory.cs" />
     <Compile Include="Infrastructure\Result.cs" />
-    <Compile Include="Models\ListaMail.cs" />
+    <Compile Include="Models\MailingListModel.cs" />
+    <Compile Include="Models\SendingMailingListModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
