@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using log4net;
@@ -20,10 +14,13 @@ namespace WAMail.Controllers
         private static readonly ILog log = LogManager.GetLogger(typeof(EmailManagerController));
 
         private readonly IMailingListRepository mailingListRepository;
+        private readonly MailSender mailSender;
 
-        public EmailManagerController(IMailingListRepository mailingListRepository)
+        public EmailManagerController(IMailingListRepository mailingListRepository,
+            MailSender mailSender)
         {
             this.mailingListRepository = mailingListRepository;
+            this.mailSender = mailSender;
         }
 
         // GET: api/EmailManager
@@ -34,12 +31,12 @@ namespace WAMail.Controllers
         }
 
         //// POST: api/EmailManager
-        public void Post([FromBody]SendMailDTO value)
+        public void Post([FromBody]SendMailDTO dto)
         {
             Task.Run(() =>
             {
                 log.Debug("Inizio...");
-                Thread.Sleep(5000);
+                mailSender.Send(dto);
                 log.Debug("Fine");
             });
 

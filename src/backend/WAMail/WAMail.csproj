@@ -113,6 +113,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\EMail.cs" />
+    <Compile Include="Infrastructure\MailSender.cs" />
     <Compile Include="Infrastructure\Persistence\IMailingListRepository.cs" />
     <Compile Include="Infrastructure\Persistence\MailingList.cs" />
     <Compile Include="Infrastructure\Persistence\MailingList_InMemory.cs" />
