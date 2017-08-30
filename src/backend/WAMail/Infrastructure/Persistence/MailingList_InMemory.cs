@@ -16,30 +16,37 @@ namespace WAMail.Infrastructure.Persistence
 
         public IEnumerable<MailingList> Get()
         {
-            var listaMail = new List<MailingList>();
-
-            foreach(var item in ml.Keys)
-            {
-                listaMail.Add(ml[item]);
-            }
-            return listaMail;
+            return from item in ml
+                  select new MailingList(item.Value.Nome)
+                  {
+                    Id = item.Value.Id,
+                    Emails = item.Value.Emails
+                  };
         }
 
         public IEnumerable<MailingList> Get(IEnumerable<string> ids)
         {
-            var listaMail = new List<MailingList>();
-
-            foreach (var item in ml.Keys)
-            {
-                if (ids.Contains(item))
-                    listaMail.Add(ml[item]);
-            }
-            return listaMail;
+            return from item in ml
+                   where ids.Contains(item.Value.Id)
+                   select new MailingList(item.Value.Nome)
+                   {
+                       Id = item.Value.Id,
+                       Emails = item.Value.Emails
+                   };
         }
 
         public void Save(MailingList mailingList)
         {
-            ml.Add(Guid.NewGuid().ToString(), mailingList);
+            if (string.IsNullOrWhiteSpace(mailingList.Id))
+            {
+                mailingList.Id = Guid.NewGuid().ToString();
+                ml.Add(mailingList.Id, mailingList);
+            }
+            else
+            {
+                ml[mailingList.Id].Nome = mailingList.Nome;
+                ml[mailingList.Id].Emails = mailingList.Emails;
+            }
         }
     }
 }

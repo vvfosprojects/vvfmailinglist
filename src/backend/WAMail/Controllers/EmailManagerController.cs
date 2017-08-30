@@ -19,19 +19,12 @@ namespace WAMail.Controllers
         // GET: api/EmailManager
         public IEnumerable<MailingListModel> Get()
         {
-            var listMailingModel = new List<MailingListModel>();
-            var model = mlInMemory.Get();
-
-            foreach(var item in model)
-            {
-                listMailingModel.Add(new MailingListModel()
-                {
-                    Id = item.Id,
-                    Nome = item.Nome
-                });
-            }
-
-            return listMailingModel;
+            return from item in mlInMemory.Get()
+                   select new MailingListModel()
+                   {
+                       Id = item.Id,
+                       Nome = item.Nome
+                   };
         }
         //public IEnumerable<string> Get()
         //{
@@ -59,7 +52,7 @@ namespace WAMail.Controllers
             {
                 mail.To = item;
                 await Task.Delay(DelaySend);
-                var mResult = await mail.Send();
+                result = await mail.Send();
             }
 
             return Request.CreateResponse<Result>(status, result);
