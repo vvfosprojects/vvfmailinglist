@@ -6,7 +6,7 @@ using System.Web;
 
 namespace WAMail.Infrastructure.Persistence
 {
-    public class MailingList_InMemory : IMailingListRepository
+    internal class MailingList_InMemory : IMailingListRepository
     {
         private Dictionary<string, MailingList> ml = new Dictionary<string, MailingList>();
 
@@ -37,6 +37,11 @@ namespace WAMail.Infrastructure.Persistence
             if (string.IsNullOrWhiteSpace(mailingList.Id))
             {
                 mailingList.InitializeId();
+            }
+            else
+            {
+                if (!ml.ContainsKey(mailingList.Id))
+                    throw new InvalidOperationException("Id da aggiornare inesistente");
             }
 
             ml[mailingList.Id] = mailingList;
