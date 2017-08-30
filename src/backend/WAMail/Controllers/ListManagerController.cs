@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Web.Http;
 using WAMail.Infrastructure.Persistence;
@@ -8,59 +11,51 @@ namespace WAMail.Controllers
 {
     public class ListManagerController : ApiController
     {
-        private MailingList_InMemory mlInMemory = new MailingList_InMemory();
+        private readonly IMailingListRepository mailingListRepository;
+
+        public ListManagerController(IMailingListRepository mailingListRepository)
+        {
+            this.mailingListRepository = mailingListRepository;
+        }
 
         // GET: api/ListManager
         public IEnumerable<MailingList> Get()
         {
-            return mlInMemory.Get(); 
+            return this.mailingListRepository.Get();
         }
 
         // GET: api/ListManager/5
         public MailingList Get(string id)
         {
-            var model = mlInMemory.Get(new List<string>() { id });
-            foreach (var item in model)
-                return item;
-            throw new HttpResponseException(HttpStatusCode.NotFound);
+            return mailingListRepository.Get(id);
         }
 
         // POST: api/ListManager
-        public void Post([FromBody]MailingList value)
+        public void Post([FromBody]MailingList mailingList)
         {
-            var model = value;
+            if (!string.IsNullOrWhiteSpace(mailingList.Id))
+            {
+                throw new InvalidOperationException("L'id deve essere null per una nuova lista");
+            }
 
-            model.Id = string.Empty;
-            mlInMemory.Save(model);
+            mailingListRepository.Save(mailingList);
         }
 
         // PUT: api/ListManager/5
-        public void Put(string id, [FromBody]MailingList value)
+        public void Put([FromBody]MailingList mailingList)
         {
-            var model = mlInMemory.Get(new List<string>() { id });
-            foreach (var item in model)
+            if (string.IsNullOrWhiteSpace(mailingList.Id))
             {
-                if (value == null)
-                    throw new HttpResponseException(HttpStatusCode.InternalServerError);
-                value.Id = id;
-                mlInMemory.Save(value);
-
-                return;
+                throw new InvalidOperationException("L'id non può essere null in caso di aggiornamento");
             }
-            throw new HttpResponseException(HttpStatusCode.NotFound);
+
+            mailingListRepository.Save(mailingList);
         }
 
         // DELETE: api/ListManager/5
         public void Delete(string id)
         {
-            var model = mlInMemory.Get(new List<string>() { id });
-            foreach (var item in model)
-            {
-                mlInMemory.Delete(id);
-
-                return;
-            }
-            throw new HttpResponseException(HttpStatusCode.NotFound);
+            mailingListRepository.Delete(id);
         }
     }
 }

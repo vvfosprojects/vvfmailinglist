@@ -1,52 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 
 namespace WAMail.Infrastructure.Persistence
 {
-    public class MailingList_InMemory : IGetMailingList, IGetMailingListById, ISaveMailingList, IDeleteMailingList
+    public class MailingList_InMemory : IMailingListRepository
     {
-        private static Dictionary<string, MailingList> ml = new Dictionary<string, MailingList>();
-        
+        private Dictionary<string, MailingList> ml = new Dictionary<string, MailingList>();
+
         public void Delete(string id)
         {
-            if (ml.ContainsKey(id)) ml.Remove(id);
+            if (!ml.Remove(id))
+                throw new InvalidOperationException("Nessun elemento con l'id dato");
         }
 
         public IEnumerable<MailingList> Get()
         {
-            return from item in ml
-                  select new MailingList(item.Value.Nome)
-                  {
-                    Id = item.Value.Id,
-                    Emails = item.Value.Emails
-                  };
+            return ml.Values;
         }
 
         public IEnumerable<MailingList> Get(IEnumerable<string> ids)
         {
-            return from item in ml
-                   where ids.Contains(item.Value.Id)
-                   select new MailingList(item.Value.Nome)
-                   {
-                       Id = item.Value.Id,
-                       Emails = item.Value.Emails
-                   };
+            foreach (var id in ids)
+                yield return ml[id];
+        }
+
+        public MailingList Get(string id)
+        {
+            return ml[id];
         }
 
         public void Save(MailingList mailingList)
         {
             if (string.IsNullOrWhiteSpace(mailingList.Id))
             {
-                mailingList.Id = Guid.NewGuid().ToString();
-                ml.Add(mailingList.Id, mailingList);
+                mailingList.InitializeId();
             }
-            else
-            {
-                ml[mailingList.Id].Nome = mailingList.Nome;
-                ml[mailingList.Id].Emails = mailingList.Emails;
-            }
+
+            ml[mailingList.Id] = mailingList;
         }
     }
 }
