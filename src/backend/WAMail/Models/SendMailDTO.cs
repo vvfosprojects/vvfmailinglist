@@ -5,9 +5,9 @@ using System.Web;
 
 namespace WAMail.Models
 {
-    public class SendingMailingListModel
+    public class SendMailDTO
     {
-        public string[] ListeDestinatarie {get; set; }
+        public string[] ListeDestinatarie { get; set; }
         public string Oggetto { get; set; }
         public string Corpo { get; set; }
     }

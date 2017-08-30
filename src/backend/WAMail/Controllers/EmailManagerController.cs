@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
+using log4net;
 using WAMail.Infrastructure;
 using WAMail.Infrastructure.Persistence;
 using WAMail.Models;
@@ -14,49 +17,48 @@ namespace WAMail.Controllers
 {
     public class EmailManagerController : ApiController
     {
-        private MailingList_InMemory mlInMemory = new MailingList_InMemory();
+        private static readonly ILog log = LogManager.GetLogger(typeof(EmailManagerController));
+
+        private readonly IMailingListRepository mailingListRepository;
+
+        public EmailManagerController(IMailingListRepository mailingListRepository)
+        {
+            this.mailingListRepository = mailingListRepository;
+        }
 
         // GET: api/EmailManager
-        public IEnumerable<MailingListModel> Get()
+        public IEnumerable<MailingListsInfoDTO> Get()
         {
-            return from item in mlInMemory.Get()
-                   select new MailingListModel()
-                   {
-                       Id = item.Id,
-                       Nome = item.Nome
-                   };
+            return mailingListRepository.Get()
+                .Select(ml => new MailingListsInfoDTO(ml.Id, ml.Nome));
         }
-        //public IEnumerable<string> Get()
-        //{
-        //    return new string[] { "value1", "value2" };
-        //}
-
-        //// GET: api/EmailManager/5
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
 
         //// POST: api/EmailManager
-        public async Task<HttpResponseMessage> Post([FromBody]SendingMailingListModel value)
+        public void Post([FromBody]SendMailDTO value)
         {
-            var DelaySend = Convert.ToInt16(ConfigurationManager.AppSettings["DelayMail"]);
-
-            var result = new Result(false);
-            var status = HttpStatusCode.InternalServerError;
-
-            var mail = new EMail();
-            mail.Body = value.Corpo;
-            mail.Subject = value.Oggetto;
-            foreach (var item in value.ListeDestinatarie)
+            Task.Run(() =>
             {
-                mail.To = item;
-                await Task.Delay(DelaySend);
-                result = await mail.Send();
-            }
+                log.Debug("Inizio...");
+                Thread.Sleep(5000);
+                log.Debug("Fine");
+            });
 
-            return Request.CreateResponse<Result>(status, result);
+            //var DelaySend = Convert.ToInt16(ConfigurationManager.AppSettings["DelayMail"]);
+
+            //var result = new Result(false);
+            //var status = HttpStatusCode.InternalServerError;
+
+            //var mail = new EMail();
+            //mail.Body = value.Corpo;
+            //mail.Subject = value.Oggetto;
+            //foreach (var item in value.ListeDestinatarie)
+            //{
+            //    mail.To = item;
+            //    await Task.Delay(DelaySend);
+            //    result = await mail.Send();
+            //}
         }
+
         //public void Post([FromBody]string value)
         //{
         //}

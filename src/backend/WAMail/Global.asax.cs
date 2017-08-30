@@ -12,6 +12,8 @@ namespace WAMail
     {
         protected void Application_Start()
         {
+            log4net.Config.XmlConfigurator.Configure();
+
             GlobalConfiguration.Configure(WebApiConfig.Register);
 
             HttpConfiguration config = GlobalConfiguration.Configuration;
