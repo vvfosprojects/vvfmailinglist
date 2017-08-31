@@ -6,6 +6,8 @@ using log4net;
 using WAMail.Infrastructure;
 using WAMail.Infrastructure.Persistence;
 using WAMail.Models;
+using System.Configuration;
+using System;
 
 namespace WAMail.Controllers
 {
@@ -30,44 +32,24 @@ namespace WAMail.Controllers
                 .Select(ml => new MailingListsInfoDTO(ml.Id, ml.Nome));
         }
 
-        //// POST: api/EmailManager
+        // POST: api/EmailManager
         public void Post([FromBody]SendMailDTO dto)
         {
             Task.Run(() =>
             {
                 log.Debug("Inizio...");
-                mailSender.Send(dto);
+                try
+                {
+                    var delaySend = Convert.ToInt16(ConfigurationManager.AppSettings["DelayMail"]);
+                    mailSender.Send(dto, delaySend);
+                }
+                catch(Exception ex)
+                {
+                    log.ErrorFormat("L'invio della mail non è stato completato per i seguente errore :\n Error: {0}\n Description: {1}", ex.HResult, ex.Message);
+                }
+
                 log.Debug("Fine");
             });
-
-            //var DelaySend = Convert.ToInt16(ConfigurationManager.AppSettings["DelayMail"]);
-
-            //var result = new Result(false);
-            //var status = HttpStatusCode.InternalServerError;
-
-            //var mail = new EMail();
-            //mail.Body = value.Corpo;
-            //mail.Subject = value.Oggetto;
-            //foreach (var item in value.ListeDestinatarie)
-            //{
-            //    mail.To = item;
-            //    await Task.Delay(DelaySend);
-            //    result = await mail.Send();
-            //}
         }
-
-        //public void Post([FromBody]string value)
-        //{
-        //}
-
-        //// PUT: api/EmailManager/5
-        //public void Put(int id, [FromBody]string value)
-        //{
-        //}
-
-        //// DELETE: api/EmailManager/5
-        //public void Delete(int id)
-        //{
-        //}
     }
 }

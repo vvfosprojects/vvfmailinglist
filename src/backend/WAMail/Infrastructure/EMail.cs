@@ -10,11 +10,17 @@ namespace WAMail.Infrastructure
 {
     public class EMail
     {
-        public string Body { get; set; }
+        public string Body { get; private set; }
         public string To { get; set; }
         public string DisplayName { get; set; }
-        public string Subject { get; set; }
-        public async Task<Result> Send()
+        public string Subject { get; private set; }
+
+        public EMail(string Corpo, string Oggetto)
+        {
+            this.Body = Corpo;
+            this.Subject = Oggetto;
+        }
+        public void Send()
         {
             var message = new MailMessage();
             message.To.Add(new MailAddress(this.To, this.DisplayName));
@@ -23,19 +29,7 @@ namespace WAMail.Infrastructure
             message.IsBodyHtml = true;
             using (var smtp = new SmtpClient())
             {
-                var result = new Result(false);
-                try
-                {
-                    await smtp.SendMailAsync(message);
-
-                    result.ok = true;
-                    return result;
-                }
-                catch(Exception ex)
-                {
-                    result.CreateResultException(ex);
-                    return result;
-                }
+                smtp.Send(message);
             }
         }
     }
