@@ -32,7 +32,8 @@ namespace WAMail.IntegrationTests
                 "Body");
             var sender = new MailEnqueuerWithFlowControl(
                 new SendMail_Fake_Delay(),
-                50);
+                50,
+                150);
 
             Assert.DoesNotThrow(() =>
             {

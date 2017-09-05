@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'list-names',
@@ -6,10 +6,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./list-names.component.css']
 })
 export class ListNamesComponent implements OnInit {
+  @Input() visible : boolean;
 
   constructor() { }
 
   ngOnInit() {
   }
 
+  Chiudi() {
+    this.visible = false;
+  }
 }

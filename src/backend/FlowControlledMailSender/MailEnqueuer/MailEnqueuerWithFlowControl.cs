@@ -10,12 +10,19 @@ using log4net;
 
 namespace FlowControlledMailSender.MailEnqueuer
 {
+    internal enum recipientEnum
+    {
+        To,
+        Cc,
+        Bcc
+    }
     internal class MailEnqueuerWithFlowControl : ISendMail
     {
         private static readonly ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private readonly int maxMailPerMinute;
         private readonly ISendMail sendMail;
+        private readonly int maxRecipientCount;
 
         private object lockObj = new object();
         private Task senderTask;
@@ -31,26 +38,84 @@ namespace FlowControlledMailSender.MailEnqueuer
         /// </param>
         public MailEnqueuerWithFlowControl(
             ISendMail sendMail,
-            int maxMailPerMinute)
+            int maxMailPerMinute,
+            int maxRecipientCount)
         {
             this.sendMail = sendMail;
             this.maxMailPerMinute = maxMailPerMinute;
+            this.maxRecipientCount = maxRecipientCount;
         }
 
         public void Send(Email email)
         {
             if (!this.EmailCanBeSent(email))
             {
-                log.WarnFormat("Impossibile inviare l'email. {0}", email.Digest);
-                throw new InvalidOperationException("La mail non può essere inviata.");
+                log.InfoFormat("La mail presenta un numero elevato di destinari. {0}", email.Digest);
+                var emailSplitter = splitterEmail(email);
+                foreach(var item in emailSplitter)
+                {
+                    this.EnqueueSafe(item);
+                }
             }
-
-            this.EnqueueSafe(email);
+            else
+            {
+                this.EnqueueSafe(email);
+            }
         }
+        private IEnumerable<Email> splitterEmail(Email email)
+        {
+            var emailSplit = new List<Email>();
+            var itemToCount = splitRecipient(email.To, emailSplit, email.Subject, email.Body, email.IsBodyHtml, recipientEnum.To);
+            var itemCcCount = splitRecipient(email.Cc, emailSplit, email.Subject, email.Body, email.IsBodyHtml, recipientEnum.Cc);
+            var itemBccCount = splitRecipient(email.Bcc, emailSplit, email.Subject, email.Body, email.IsBodyHtml, recipientEnum.Bcc);
 
+            var appoTo = new string[itemToCount];
+            var appoCc = new string[itemCcCount];
+            var appoBcc = new string[itemBccCount];
+
+            appoTo.CopyTo(email.To, itemToCount);
+            emailSplit.Add(new Email(appoTo,null,null, email.Subject, email.Body, email.IsBodyHtml));
+
+            appoCc.CopyTo(email.Cc, itemToCount);
+            emailSplit.Add(new Email( null, appoCc, null, email.Subject, email.Body, email.IsBodyHtml));
+
+            appoBcc.CopyTo(email.Bcc, itemBccCount);
+            emailSplit.Add(new Email(null, null, appoBcc,email.Subject, email.Body, email.IsBodyHtml));
+
+            return emailSplit;
+        }
+        private int splitRecipient(string[] recipient, List<Email> email, string Subject, string Body, bool IsBodyHtml, recipientEnum recipientEnum)
+        {
+            var RetCode = recipient.Length;
+
+            if (recipient.Length > this.maxRecipientCount)
+            {
+                var splitRecipient = new string[this.maxRecipientCount];
+                var Index = 0;
+                for (var i = 0; i < (recipient.Length / this.maxRecipientCount); i++)
+                {
+                    recipient.CopyTo(splitRecipient, Index);
+                    switch (recipientEnum)
+                    {
+                        case recipientEnum.Bcc:
+                            email.Add(new Email(null, null, splitRecipient, Subject, Body, IsBodyHtml));
+                            break;
+                        case recipientEnum.Cc:
+                            email.Add(new Email(null, splitRecipient, null, Subject, Body, IsBodyHtml));
+                            break;
+                        case recipientEnum.To:
+                            email.Add(new Email(splitRecipient, null, null, Subject, Body, IsBodyHtml));
+                            break;
+                    }
+                    Index += this.maxRecipientCount;
+                }
+                RetCode = recipient.Length - Index;
+            }
+            return RetCode;
+        }
         private bool EmailCanBeSent(Email email)
         {
-            return email.RecipientCount <= this.maxMailPerMinute;
+            return email.RecipientCount < this.maxRecipientCount;
         }
 
         private void StartSenderTask()
@@ -90,7 +155,7 @@ namespace FlowControlledMailSender.MailEnqueuer
                     }
 
                     log.InfoFormat("Mail inviata. - {0}", email.Digest);
-                    this.nextSendDate = DateTime.Now.AddSeconds(email.RecipientCount * SingleMailDelay_secs);
+                    this.nextSendDate = DateTime.Now.AddSeconds(SingleMailDelay_secs);
                     logPrinted = false;
                 }
             }

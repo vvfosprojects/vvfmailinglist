@@ -1,4 +1,5 @@
-<div class="modal">
+<div *ngIf="visible">
+  <div class="modal" style="display: block">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -27,4 +28,6 @@
       </div>
     </div>
   </div>
-  
+
+  <list-names  [visible]="showNames"></list-names>
+</div>
