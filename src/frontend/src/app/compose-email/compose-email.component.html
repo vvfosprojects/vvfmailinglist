@@ -1,4 +1,4 @@
-<div class="modal" style="display: block">
+<div class="modal">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -7,7 +7,7 @@
         <div class="modal-body">
           <form>
             <div class="form-group">
-              <button type="button" class="btn btn-light">A:</button>
+              <button type="button" class="btn btn-light" (click)="ShowNames()">A:</button>
               <textarea class="form-control" id="ListaDestinatari" placeholder="Premere il pulsante [A:] per ottenere i destinatari."></textarea>
             </div>
             <div class="form-group">
@@ -27,3 +27,4 @@
       </div>
     </div>
   </div>
+  
