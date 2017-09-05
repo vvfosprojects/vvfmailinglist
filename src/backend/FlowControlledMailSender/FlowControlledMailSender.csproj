@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{682A2B06-2ACA-4478-A5F9-B715FB410878}</ProjectGuid>
+    <ProjectGuid>{C04217AF-8FA8-4992-9849-8F487EA5CEE1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WAMail.IntegrationTests</RootNamespace>
-    <AssemblyName>WAMail.IntegrationTests</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <RootNamespace>FlowControlledMailSender</RootNamespace>
+    <AssemblyName>FlowControlledMailSender</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,8 +34,12 @@
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="nunit.framework, Version=3.8.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.8.1\lib\net45\nunit.framework.dll</HintPath>
+    <Reference Include="SimpleInjector, Version=4.0.8.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.4.0.8\lib\net45\SimpleInjector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SimpleInjector.Packaging, Version=4.0.8.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.Packaging.4.0.8\lib\net40\SimpleInjector.Packaging.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -49,26 +52,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TestInMemoryRepository.cs" />
+    <Compile Include="Bindings.cs" />
+    <Compile Include="DomainClasses\Email.cs" />
+    <Compile Include="MailEnqueuer\MailEnqueuerWithFlowControl.cs" />
+    <Compile Include="MailSender\ISendMail.cs" />
+    <Compile Include="MailSender\SendMail_Fake_Delay.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestMailSender.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\FlowControlledMailSender\FlowControlledMailSender.csproj">
-      <Project>{c04217af-8fa8-4992-9849-8f487ea5cee1}</Project>
-      <Name>FlowControlledMailSender</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WAMail\WAMail.csproj">
-      <Project>{a0ba588b-f8d5-4730-a7f5-a8b5fa015df0}</Project>
-      <Name>WAMail</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

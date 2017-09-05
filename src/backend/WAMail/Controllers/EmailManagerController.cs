@@ -43,7 +43,7 @@ namespace WAMail.Controllers
                     var delaySend = Convert.ToInt16(ConfigurationManager.AppSettings["DelayMail"]);
                     mailSender.Send(dto, delaySend);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     log.ErrorFormat("L'invio della mail non è stato completato per i seguente errore :\n Error: {0}\n Description: {1}", ex.HResult, ex.Message);
                 }

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WAMail", "WAMail\WAMail.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WAMail.IntegrationTests", "WAMail.IntegrationTests\WAMail.IntegrationTests.csproj", "{682A2B06-2ACA-4478-A5F9-B715FB410878}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowControlledMailSender", "FlowControlledMailSender\FlowControlledMailSender.csproj", "{C04217AF-8FA8-4992-9849-8F487EA5CEE1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{682A2B06-2ACA-4478-A5F9-B715FB410878}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{682A2B06-2ACA-4478-A5F9-B715FB410878}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{682A2B06-2ACA-4478-A5F9-B715FB410878}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C04217AF-8FA8-4992-9849-8F487EA5CEE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C04217AF-8FA8-4992-9849-8F487EA5CEE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C04217AF-8FA8-4992-9849-8F487EA5CEE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C04217AF-8FA8-4992-9849-8F487EA5CEE1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
