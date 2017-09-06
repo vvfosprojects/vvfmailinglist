@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Configuration;
+using DomainClasses.MailManagement;
 using FlowControlledMailSender.MailEnqueuer;
 using SimpleInjector;
 using SimpleInjector.Packaging;
@@ -13,15 +11,21 @@ namespace FlowControlledMailSender
     {
         public void RegisterServices(Container container)
         {
-            container.RegisterConditional<MailSender.ISendMail, MailSender.SendMail_Fake_Delay>(
-                Lifestyle.Scoped,
-                pc => pc.Consumer.ImplementationType == typeof(MailEnqueuerWithFlowControl)
-            );
+            var mailSenderRegistration = Lifestyle.Singleton.CreateRegistration<MailEnqueuerWithFlowControl>(() =>
+            {
+                return new MailEnqueuerWithFlowControl(container.GetInstance<ISendMail>(), 50, 150);
+            },
+            container);
 
-            container.RegisterConditional<MailSender.ISendMail, MailEnqueuerWithFlowControl>(
-                Lifestyle.Singleton,
-                pc => pc.Consumer.ImplementationType != typeof(MailEnqueuerWithFlowControl)
-            );
+            container.AddRegistration<MailEnqueuerWithFlowControl>(mailSenderRegistration);
+
+            container.Register(typeof(ISendMail), () =>
+            {
+                return new MailEnqueuerWithFlowControl(
+                    new MailSender.SendMail_Fake_Delay(),
+                    Convert.ToInt32(ConfigurationManager.AppSettings["maxMailPerMinute"]),
+                    Convert.ToInt32(ConfigurationManager.AppSettings["maxRecipientCount"]));
+            }, Lifestyle.Singleton);
         }
     }
 }

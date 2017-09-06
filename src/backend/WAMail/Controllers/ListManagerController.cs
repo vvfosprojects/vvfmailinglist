@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Net;
 using System.Web.Http;
-using WAMail.Infrastructure.Persistence;
-using WAMail.Models;
+using DomainClasses.MailManagement;
 
 namespace WAMail.Controllers
 {

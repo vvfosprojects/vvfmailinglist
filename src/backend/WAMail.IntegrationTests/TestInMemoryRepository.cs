@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DomainClasses.MailManagement;
 using NUnit.Framework;
-using WAMail.Infrastructure.Persistence;
 
 namespace WAMail.IntegrationTests
 {

@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using FlowControlledMailSender.DomainClasses;
+using DomainClasses.MailManagement;
 using FlowControlledMailSender.MailEnqueuer;
 using FlowControlledMailSender.MailSender;
 using log4net.Appender;

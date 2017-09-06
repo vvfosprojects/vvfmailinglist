@@ -1,6 +1,4 @@
-﻿using FlowControlledMailSender.DomainClasses;
-
-namespace FlowControlledMailSender.MailSender
+﻿namespace DomainClasses.MailManagement
 {
     /// <summary>
     /// Questa classe è un wrapper per i servizi di invio mail implementati dalle librerie .net.

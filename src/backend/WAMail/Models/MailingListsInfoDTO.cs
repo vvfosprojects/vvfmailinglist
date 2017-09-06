@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace WAMail.Models
+﻿namespace WAMail.Models
 {
     public class MailingListsInfoDTO
     {

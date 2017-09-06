@@ -58,6 +58,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DomainClasses\DomainClasses.csproj">
+      <Project>{d8d5c87c-6bcc-490a-bd5c-d3cc9f8d7afc}</Project>
+      <Name>DomainClasses</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FlowControlledMailSender\FlowControlledMailSender.csproj">
       <Project>{c04217af-8fa8-4992-9849-8f487ea5cee1}</Project>
       <Name>FlowControlledMailSender</Name>

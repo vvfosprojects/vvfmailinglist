@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using FlowControlledMailSender.DomainClasses;
+﻿using System.Threading;
+using DomainClasses.MailManagement;
 using log4net;
-using log4net.Core;
 
 namespace FlowControlledMailSender.MailSender
 {

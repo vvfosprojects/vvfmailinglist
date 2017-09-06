@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
-namespace FlowControlledMailSender.DomainClasses
+namespace DomainClasses.MailManagement
 {
     public class Email
     {

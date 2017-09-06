@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
-namespace WAMail.Infrastructure.Persistence
+namespace DomainClasses.MailManagement
 {
     public class MailingList
     {

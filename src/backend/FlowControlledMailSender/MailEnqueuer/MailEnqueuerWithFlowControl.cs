@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using FlowControlledMailSender.DomainClasses;
-using FlowControlledMailSender.MailSender;
+using DomainClasses.MailManagement;
 using log4net;
 
 namespace FlowControlledMailSender.MailEnqueuer
@@ -16,6 +14,7 @@ namespace FlowControlledMailSender.MailEnqueuer
         Cc,
         Bcc
     }
+
     internal class MailEnqueuerWithFlowControl : ISendMail
     {
         private static readonly ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -52,7 +51,7 @@ namespace FlowControlledMailSender.MailEnqueuer
             {
                 log.InfoFormat("La mail presenta un numero elevato di destinari. {0}", email.Digest);
                 var emailSplitter = splitterEmail(email);
-                foreach(var item in emailSplitter)
+                foreach (var item in emailSplitter)
                 {
                     this.EnqueueSafe(item);
                 }
@@ -62,6 +61,7 @@ namespace FlowControlledMailSender.MailEnqueuer
                 this.EnqueueSafe(email);
             }
         }
+
         private IEnumerable<Email> splitterEmail(Email email)
         {
             var emailSplit = new List<Email>();
@@ -74,16 +74,17 @@ namespace FlowControlledMailSender.MailEnqueuer
             var appoBcc = new string[itemBccCount];
 
             appoTo.CopyTo(email.To, itemToCount);
-            emailSplit.Add(new Email(appoTo,null,null, email.Subject, email.Body, email.IsBodyHtml));
+            emailSplit.Add(new Email(appoTo, null, null, email.Subject, email.Body, email.IsBodyHtml));
 
             appoCc.CopyTo(email.Cc, itemToCount);
-            emailSplit.Add(new Email( null, appoCc, null, email.Subject, email.Body, email.IsBodyHtml));
+            emailSplit.Add(new Email(null, appoCc, null, email.Subject, email.Body, email.IsBodyHtml));
 
             appoBcc.CopyTo(email.Bcc, itemBccCount);
-            emailSplit.Add(new Email(null, null, appoBcc,email.Subject, email.Body, email.IsBodyHtml));
+            emailSplit.Add(new Email(null, null, appoBcc, email.Subject, email.Body, email.IsBodyHtml));
 
             return emailSplit;
         }
+
         private int splitRecipient(string[] recipient, List<Email> email, string Subject, string Body, bool IsBodyHtml, recipientEnum recipientEnum)
         {
             var RetCode = recipient.Length;
@@ -100,9 +101,11 @@ namespace FlowControlledMailSender.MailEnqueuer
                         case recipientEnum.Bcc:
                             email.Add(new Email(null, null, splitRecipient, Subject, Body, IsBodyHtml));
                             break;
+
                         case recipientEnum.Cc:
                             email.Add(new Email(null, splitRecipient, null, Subject, Body, IsBodyHtml));
                             break;
+
                         case recipientEnum.To:
                             email.Add(new Email(splitRecipient, null, null, Subject, Body, IsBodyHtml));
                             break;
@@ -113,6 +116,7 @@ namespace FlowControlledMailSender.MailEnqueuer
             }
             return RetCode;
         }
+
         private bool EmailCanBeSent(Email email)
         {
             return email.RecipientCount < this.maxRecipientCount;
@@ -137,7 +141,7 @@ namespace FlowControlledMailSender.MailEnqueuer
                 {
                     if (!logPrinted)
                     {
-                        log.DebugFormat("Attendo {0} secondi prima di inviare la prossima mail.", this.nextSendDate.Subtract(DateTime.Now).TotalSeconds);
+                        log.DebugFormat("Attendo {0} msec prima di inviare la prossima mail.", this.nextSendDate.Subtract(DateTime.Now).TotalMilliseconds);
                         logPrinted = true;
                     }
                     Thread.Sleep(100);
@@ -194,7 +198,7 @@ namespace FlowControlledMailSender.MailEnqueuer
             {
                 const int secondsPerMinute = 60;
 
-                return secondsPerMinute / (this.maxMailPerMinute);
+                return (double)secondsPerMinute / (this.maxMailPerMinute);
             }
         }
     }
