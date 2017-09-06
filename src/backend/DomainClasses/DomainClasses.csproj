@@ -53,6 +53,7 @@
     <Compile Include="MailManagement\IMailingListRepository.cs" />
     <Compile Include="MailManagement\ISendMail.cs" />
     <Compile Include="MailManagement\MailingList.cs" />
+    <Compile Include="MailManagement\MailingList_Hardcoded.cs" />
     <Compile Include="MailManagement\MailingList_InMemory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

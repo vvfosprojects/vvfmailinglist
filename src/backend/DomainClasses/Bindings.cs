@@ -12,7 +12,7 @@ namespace DomainClasses
     {
         public void RegisterServices(Container container)
         {
-            container.Register<DomainClasses.MailManagement.IMailingListRepository, MailManagement.MailingList_InMemory>(Lifestyle.Singleton);
+            container.Register<DomainClasses.MailManagement.IMailingListRepository, MailManagement.MailingList_Hardcoded>(Lifestyle.Singleton);
         }
     }
 }
