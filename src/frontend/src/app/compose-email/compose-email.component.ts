@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'compose-email',
@@ -6,16 +6,12 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./compose-email.component.css']
 })
 export class ComposeEmailComponent implements OnInit {
- showNames : boolean = false;
-  @Input() visible : boolean;
-  
   constructor() { 
   }
 
   ngOnInit() {
   }
 
-  ShowNames() {
-    this.showNames = true;
-  } 
+  Close() {
+  }
 }

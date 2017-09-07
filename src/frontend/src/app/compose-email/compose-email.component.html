@@ -1,33 +1,43 @@
-<div *ngIf="visible">
-  <div class="modal" style="display: block">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Nuovo messaggio</h5>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="form-group">
-              <button type="button" class="btn btn-light" (click)="ShowNames()">A:</button>
-              <textarea class="form-control" id="ListaDestinatari" placeholder="Premere il pulsante [A:] per ottenere i destinatari."></textarea>
+<div class="modal" style="display: block">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Nuovo messaggio</h5>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">                       
+            <label for="To" class="form-control-label" aria-placeholder="A">A:</label>              
+            <div class="row">
+              <div class="col-12 col-md-auto">
+                <div class="btn-group" data-toggle="buttons">
+                  <label class="btn btn-primary">
+                    <input type="checkbox" autocomplete="off"> Checkbox 1
+                  </label>
+                  <label class="btn btn-primary">
+                    <input type="checkbox" autocomplete="off"> Checkbox 2
+                  </label>
+                  <label class="btn btn-primary">
+                    <input type="checkbox" autocomplete="off"> Checkbox 3
+                  </label>
+                </div>
+              </div>  
             </div>
-            <div class="form-group">
-              <label for="Oggetto" class="form-control-label" aria-placeholder="A">Oggetto:</label>              
-              <input type="text" class="form-control" id="Oggetto" placeholder="Digitare oggetto.">
-            </div>
-            <div class="form-group">
-              <label for="Corso" class="form-control-label">Testo:</label>
-              <textarea class="form-control" id="Corpo" placeholder="Digitare testo da inviare."></textarea>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
-            <button type="button" class="btn btn-primary">Invia</button>
-        </div>
+          </div>  
+          <div class="form-group">
+            <label for="Oggetto" class="form-control-label" aria-placeholder="A">Oggetto:</label>              
+            <textarea class="form-control" id="Oggetto" placeholder="Digitare oggetto."></textarea>
+          </div> 
+          <div class="form-group">
+            <label for="Corpo" class="form-control-label">Testo:</label>
+            <textarea class="form-control" id="Corpo" placeholder="Digitare testo da inviare."></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="Close()">Chiudi</button>
+          <button type="button" class="btn btn-primary">Invia</button>
       </div>
     </div>
   </div>
-
-  <list-names  [visible]="showNames"></list-names>
 </div>
