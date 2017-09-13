@@ -1,8 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpModule, JsonpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { ComposeEmailComponent } from './compose-email/compose-email.component';
+import { ComposeEmailService } from './compose-email/compose-email.service';
 
 @NgModule({
   declarations: [
@@ -10,7 +12,12 @@ import { ComposeEmailComponent } from './compose-email/compose-email.component';
     ComposeEmailComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    HttpModule, 
+    JsonpModule
+  ],
+  providers: [
+    ComposeEmailService
   ],
   bootstrap: [ 
     AppComponent 

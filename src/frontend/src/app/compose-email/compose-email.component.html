@@ -1,4 +1,4 @@
-<div class="modal" style="display: block">
+<div class="modal">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -11,16 +11,11 @@
             <div class="row">
               <div class="col-12 col-md-auto">
                 <div class="btn-group" data-toggle="buttons">
-                  <label class="btn btn-primary">
-                    <input type="checkbox" autocomplete="off"> Checkbox 1
-                  </label>
-                  <label class="btn btn-primary">
-                    <input type="checkbox" autocomplete="off"> Checkbox 2
-                  </label>
-                  <label class="btn btn-primary">
-                    <input type="checkbox" autocomplete="off"> Checkbox 3
+                  <label class="btn btn-primary" *ngFor="let item of mailingListsInfo">
+                    <input type="checkbox" autocomplete="off"> {{item.nome}}
                   </label>
                 </div>
+                <div *ngIf="errormsg">"Error -> "{{errormsg}}</div>    
               </div>  
             </div>
           </div>  

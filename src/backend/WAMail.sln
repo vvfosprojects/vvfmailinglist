@@ -4,6 +4,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WAMail", "WAMail\WAMail.csproj", "{A0BA588B-F8D5-4730-A7F5-A8B5FA015DF0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D8D5C87C-6BCC-490A-BD5C-D3CC9F8D7AFC} = {D8D5C87C-6BCC-490A-BD5C-D3CC9F8D7AFC}
+		{C04217AF-8FA8-4992-9849-8F487EA5CEE1} = {C04217AF-8FA8-4992-9849-8F487EA5CEE1}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WAMail.IntegrationTests", "WAMail.IntegrationTests\WAMail.IntegrationTests.csproj", "{682A2B06-2ACA-4478-A5F9-B715FB410878}"
 EndProject
