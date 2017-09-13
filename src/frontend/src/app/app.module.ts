@@ -1,10 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpModule, JsonpModule } from '@angular/http';
+import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { ComposeEmailComponent } from './compose-email/compose-email.component';
 import { ComposeEmailService } from './compose-email/compose-email.service';
+import { ComposeEmailFakeService } from "app/compose-email/compose-email-fake.service";
 
 @NgModule({
   declarations: [
@@ -13,14 +14,13 @@ import { ComposeEmailService } from './compose-email/compose-email.service';
   ],
   imports: [
     BrowserModule,
-    HttpModule, 
-    JsonpModule
+    HttpModule,
   ],
   providers: [
-    ComposeEmailService
+    { provide: ComposeEmailService, useClass: ComposeEmailService }
   ],
-  bootstrap: [ 
-    AppComponent 
+  bootstrap: [
+    AppComponent
   ]
 })
 export class AppModule { }

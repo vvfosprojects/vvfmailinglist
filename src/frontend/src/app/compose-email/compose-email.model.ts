@@ -1,5 +1,6 @@
 export class MailingListsInfo {
-    public id: string;
-    public nome: string; 
+    constructor(
+        public id: string,
+        public nome: string) {}
 }
 
