@@ -14,6 +14,8 @@ export class ComposeEmailComponent implements OnInit {
   frm_sendMail: SendMail;
   post_sendMail: SendMail;
   errormsg: string;
+  inFaseDiInvio: boolean = false;
+
   constructor(private CES: ComposeEmailService) {
   }
 
@@ -32,15 +34,19 @@ export class ComposeEmailComponent implements OnInit {
   }
 
   sendMail(sendMail: SendMail) {
+    this.inFaseDiInvio = true;
     this.CES.sendMailObservable(sendMail)
       .subscribe(
       response => {
         this.post_sendMail = response;
         this.frm_sendMail.Oggetto = null;
         this.frm_sendMail.Corpo = null;
+        this.inFaseDiInvio = false;
       },
-      error => this.errormsg = error
-      );
+      error => {
+        this.errormsg = error;
+        this.inFaseDiInvio = false;
+      });
   }
 
   updateSelectidListeDestinatarie(event) {
@@ -62,6 +68,6 @@ export class ComposeEmailComponent implements OnInit {
   }
 
   private isValidForm(): boolean {
-    return !!this.frm_sendMail.Oggetto && !!this.frm_sendMail.Corpo;
+    return !this.inFaseDiInvio && !!this.frm_sendMail.Oggetto && !!this.frm_sendMail.Corpo;
   }
 }

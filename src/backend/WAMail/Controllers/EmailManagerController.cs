@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web.Http;
 using DomainClasses.MailManagement;
 using log4net;
@@ -32,6 +33,7 @@ namespace WAMail.Controllers
         // POST: api/EmailManager
         public void Post([FromBody]SendMailDTO dto)
         {
+            Thread.Sleep(10000);
             log.Debug("Invio mail...");
             try
             {
