@@ -14,6 +14,7 @@ export class ComposeEmailComponent implements OnInit {
   frm_sendMail: SendMail;
   post_sendMail: SendMail;
   errormsg: string;
+  usermsg: string;
   inFaseDiInvio: boolean = false;
 
   constructor(private CES: ComposeEmailService) {
@@ -35,6 +36,7 @@ export class ComposeEmailComponent implements OnInit {
 
   sendMail(sendMail: SendMail) {
     this.inFaseDiInvio = true;
+    this.usermsg = "Sto inviando il messaggio....";
     this.CES.sendMailObservable(sendMail)
       .subscribe(
       response => {
@@ -42,10 +44,12 @@ export class ComposeEmailComponent implements OnInit {
         this.frm_sendMail.Oggetto = null;
         this.frm_sendMail.Corpo = null;
         this.inFaseDiInvio = false;
+        this.usermsg = "Messaggio inviato con successo";
       },
       error => {
         this.errormsg = error;
         this.inFaseDiInvio = false;
+        this.usermsg = "Messaggio non inviato";
       });
   }
 

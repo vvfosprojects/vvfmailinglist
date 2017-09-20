@@ -33,7 +33,6 @@ namespace WAMail.Controllers
         // POST: api/EmailManager
         public void Post([FromBody]SendMailDTO dto)
         {
-            Thread.Sleep(10000);
             log.Debug("Invio mail...");
             try
             {

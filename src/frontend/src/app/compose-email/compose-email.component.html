@@ -4,6 +4,7 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" (click)="Send(sendMail)" [disabled]="!isValidForm()">Invia</button>
       </div>
+      <div *ngIf="usermsg">{{usermsg}}</div>    
       <div class="modal-body">
         <form>
           <div class="row">
