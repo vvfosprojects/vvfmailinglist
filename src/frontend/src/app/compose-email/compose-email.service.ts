@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MailingListsInfo } from './compose-email.model';
+import { MailingListsInfo, SendMail } from './compose-email.model';
 
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
@@ -27,6 +27,18 @@ export class ComposeEmailService {
           Object.assign(mli, obj);
           return mli;
         });
+      })
+      .catch(this.handleError);
+  }
+
+  sendMailObservable(obj: SendMail): Observable<SendMail> {
+    return this.http
+      .post(API_URL + '/EmailManager', obj)
+      .map(response => {
+        const  appo_sm = response.json();
+        var sm = Object.create(SendMail.prototype);
+        Object.assign(sm, appo_sm);  
+        return sm;
       })
       .catch(this.handleError);
   }

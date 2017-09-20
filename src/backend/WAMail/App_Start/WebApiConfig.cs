@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace WAMail
 {
@@ -7,7 +8,10 @@ namespace WAMail
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
-
+            var corsAttribute = new EnableCorsAttribute("*", 
+                                                        "Origin, Content-Type, Accept",
+                                                        "GET, PUT, POST, DELETE, OPTIONS");
+            config.EnableCors(corsAttribute);
             // Web API routes
             config.MapHttpAttributeRoutes();
 

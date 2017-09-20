@@ -4,3 +4,8 @@ export class MailingListsInfo {
         public nome: string) {}
 }
 
+export class SendMail {
+    public idListeDestinatarie: string[];
+    public Oggetto: string;
+    public Corpo: string; 
+}

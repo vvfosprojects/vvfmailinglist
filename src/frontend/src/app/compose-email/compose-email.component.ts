@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { NgModel } from '@angular/forms';
+
 import { ComposeEmailService } from './compose-email.service';
-import { MailingListsInfo } from './compose-email.model';
+import { MailingListsInfo, SendMail } from './compose-email.model';
 
 @Component({
   selector: 'compose-email',
@@ -9,13 +11,17 @@ import { MailingListsInfo } from './compose-email.model';
 })
 export class ComposeEmailComponent implements OnInit {
   mailingListsInfo: MailingListsInfo[];
-  errormsg;
+  frm_sendMail: SendMail;
+  post_sendMail: SendMail;
+  errormsg: string;
   constructor(private CES:ComposeEmailService) { 
   }
 
   ngOnInit() {
     this.getMailingListsInfo();  
-  }
+    this.frm_sendMail = new SendMail();
+    this.frm_sendMail.idListeDestinatarie = [];
+ }
 
  getMailingListsInfo() {
     this.CES.getMailingListsInfoObservable()
@@ -25,6 +31,32 @@ export class ComposeEmailComponent implements OnInit {
                 );
   }
 
+  sendMail(sendMail: SendMail) {
+    this.CES.sendMailObservable(sendMail)
+                .subscribe(         
+                  response => this.post_sendMail = response,      
+                  error => this.errormsg = error
+                );
+  }
+
+  updateSelectidListeDestinatarie(event) {
+    if (event.target.checked) {
+      if (!this.frm_sendMail.idListeDestinatarie.find(x => x == event.target.value)) {
+        this.frm_sendMail.idListeDestinatarie.push(event.target.value);
+      }
+    }
+    else {
+      if (this.frm_sendMail.idListeDestinatarie.find(x => x == event.target.value)) {
+        this.frm_sendMail.idListeDestinatarie.slice(event.target.value);
+      }
+    }
+ }
+
   Close() {
   }
+
+  Send() {    
+    this.sendMail(this.frm_sendMail);
+    console.log("post -> " + this.post_sendMail);
+    }
 }
