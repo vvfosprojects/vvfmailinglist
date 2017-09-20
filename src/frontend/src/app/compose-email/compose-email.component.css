@@ -1,9 +1,6 @@
 .modal {
     display: block;
 }
-#Oggetto {
-    min-height: 150px;
-}
 #Corpo {
     min-height: 300px;
 }
