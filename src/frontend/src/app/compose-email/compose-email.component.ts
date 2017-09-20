@@ -54,6 +54,6 @@ export class ComposeEmailComponent implements OnInit {
 
   Send() {
     this.sendMail(this.frm_sendMail);
-    console.log("post -> " + this.post_sendMail);
+    console.log("post -> ", this.frm_sendMail);
   }
 }
