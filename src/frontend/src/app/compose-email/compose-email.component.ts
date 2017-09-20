@@ -14,29 +14,29 @@ export class ComposeEmailComponent implements OnInit {
   frm_sendMail: SendMail;
   post_sendMail: SendMail;
   errormsg: string;
-  constructor(private CES:ComposeEmailService) { 
+  constructor(private CES: ComposeEmailService) {
   }
 
   ngOnInit() {
-    this.getMailingListsInfo();  
+    this.getMailingListsInfo();
     this.frm_sendMail = new SendMail();
     this.frm_sendMail.idListeDestinatarie = [];
- }
+  }
 
- getMailingListsInfo() {
+  getMailingListsInfo() {
     this.CES.getMailingListsInfoObservable()
-                .subscribe(               
-                  response => this.mailingListsInfo = response,
-                  error => this.errormsg = error
-                );
+      .subscribe(
+      response => this.mailingListsInfo = response,
+      error => this.errormsg = error
+      );
   }
 
   sendMail(sendMail: SendMail) {
     this.CES.sendMailObservable(sendMail)
-                .subscribe(         
-                  response => this.post_sendMail = response,      
-                  error => this.errormsg = error
-                );
+      .subscribe(
+      response => this.post_sendMail = response,
+      error => this.errormsg = error
+      );
   }
 
   updateSelectidListeDestinatarie(event) {
@@ -50,13 +50,10 @@ export class ComposeEmailComponent implements OnInit {
         this.frm_sendMail.idListeDestinatarie.slice(event.target.value);
       }
     }
- }
-
-  Close() {
   }
 
-  Send() {    
+  Send() {
     this.sendMail(this.frm_sendMail);
     console.log("post -> " + this.post_sendMail);
-    }
+  }
 }
