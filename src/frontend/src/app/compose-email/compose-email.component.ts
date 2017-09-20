@@ -60,4 +60,8 @@ export class ComposeEmailComponent implements OnInit {
     this.sendMail(this.frm_sendMail);
     console.log("post -> ", this.frm_sendMail);
   }
+
+  private isValidForm(): boolean {
+    return !!this.frm_sendMail.Oggetto && !!this.frm_sendMail.Corpo;
+  }
 }
