@@ -34,7 +34,11 @@ export class ComposeEmailComponent implements OnInit {
   sendMail(sendMail: SendMail) {
     this.CES.sendMailObservable(sendMail)
       .subscribe(
-      response => this.post_sendMail = response,
+      response => {
+        this.post_sendMail = response;
+        this.frm_sendMail.Oggetto = null;
+        this.frm_sendMail.Corpo = null;
+      },
       error => this.errormsg = error
       );
   }
