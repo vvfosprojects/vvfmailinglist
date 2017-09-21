@@ -13,8 +13,8 @@ export class ComposeEmailComponent implements OnInit {
   mailingListsInfo: MailingListsInfo[];
   frm_sendMail: SendMail;
   post_sendMail: SendMail;
-  errormsg: string;
-  usermsg: string;
+  errorMsg: string;
+  userMsg: string;
   inFaseDiInvio: boolean = false;
 
   constructor(private CES: ComposeEmailService) {
@@ -30,26 +30,36 @@ export class ComposeEmailComponent implements OnInit {
     this.CES.getMailingListsInfoObservable()
       .subscribe(
       response => this.mailingListsInfo = response,
-      error => this.errormsg = error
+      error => this.errorMsg = error
       );
   }
 
+  private resetMessaggi() {
+    this.userMsg = null;
+    this.errorMsg = null;
+  }
+
+  private pulisciForm() {
+    this.frm_sendMail.Oggetto = null;
+    this.frm_sendMail.Corpo = null;
+  }
+
   sendMail(sendMail: SendMail) {
+    this.resetMessaggi();
     this.inFaseDiInvio = true;
-    this.usermsg = "Sto inviando il messaggio....";
     this.CES.sendMailObservable(sendMail)
       .subscribe(
       response => {
         this.post_sendMail = response;
-        this.frm_sendMail.Oggetto = null;
-        this.frm_sendMail.Corpo = null;
-        this.inFaseDiInvio = false;
-        this.usermsg = "Messaggio inviato con successo";
+        this.pulisciForm();
+        this.userMsg = "Messaggio inviato con successo";
       },
       error => {
-        this.errormsg = error;
+        this.errorMsg = "Messaggio non inviato. " + error;
         this.inFaseDiInvio = false;
-        this.usermsg = "Messaggio non inviato";
+      },
+      () => {
+        this.inFaseDiInvio = false;
       });
   }
 

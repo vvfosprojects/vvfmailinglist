@@ -1,41 +1,44 @@
-<div class="modal">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="Send(sendMail)" [disabled]="!isValidForm()">Invia</button>
-      </div>
-      <div *ngIf="usermsg">{{usermsg}}</div>    
-      <div class="modal-body">
-        <form>
-          <div class="row">
-            <div class="col-lg-3">
-              <div class="form-group row">                       
-                <div class="col-lg-12 ">
-                  <label for="To" class="form-control-label" aria-placeholder="A">A:</label>              
-                </div>                  
-                <div class="col">
-                  <div class="btn-group-vertical" data-toggle="buttons">
-                    <label class="btn btn-primary" *ngFor="let item of mailingListsInfo;">
+<div *ngIf="!!userMsg" class="alert alert-success" role="alert">{{ userMsg }}</div>
+<div *ngIf="!!errorMsg" class="alert alert-danger" role="alert">{{ errorMsg }}</div>
+<div *ngIf="inFaseDiInvio" class="alert alert-warning" role="alert">Invio messaggio in corso...</div>
+
+<div class="card">
+  <div class="card-header">
+    <button type="button" class="btn btn-primary" (click)="Send(sendMail)" [disabled]="!isValidForm()">Invia</button>
+  </div>
+  <div class="card-block">
+    <div *ngIf="usermsg">{{usermsg}}</div>
+    <div class="modal-body">
+      <form>
+        <div class="row">
+          <div class="col-lg-3">
+            <div class="form-group row">
+              <div class="col-lg-12 ">
+                <label for="To" class="form-control-label" aria-placeholder="A">A:</label>
+              </div>
+              <div class="col">
+                <div class="btn-group-vertical" data-toggle="buttons">
+                  <label class="btn btn-primary" *ngFor="let item of mailingListsInfo;">
                       <input type="checkbox" value="{{item.id}}" name="{{item.id}}" [checked]="(sendMail.idListeDestinatarie && (sendMail.idListeDestinatarie.indexOf(item.id) >= 0) ? 'checked' : '')" (change)="updateSelectidListeDestinatarie($event)" autocomplete="off">{{item.nome}}
                     </label>
-                  </div>
-                  <div *ngIf="errormsg">"Error -> "{{errormsg}}</div>    
-                </div>  
-              </div>
-            </div>
-            <div class="col-lg-9">
-              <div class="form-group">
-                <label for="Oggetto" class="form-control-label" aria-placeholder="A">Oggetto:</label>              
-                <input [(ngModel)]="frm_sendMail.Oggetto" name="Oggetto" class="form-control" id="Oggetto" placeholder="Digitare oggetto."/>
-              </div> 
-              <div class="form-group">
-                <label for="Corpo" class="form-control-label">Testo:</label>
-                <textarea [(ngModel)]="frm_sendMail.Corpo" name="Corpo" class="form-control" id="Corpo" placeholder="Digitare testo da inviare."></textarea>
+                </div>
+                <div *ngIf="errormsg">"Error -> "{{errormsg}}</div>
               </div>
             </div>
           </div>
-        </form>
-      </div>
+          <div class="col-lg-9">
+            <div class="form-group">
+              <label for="Oggetto" class="form-control-label" aria-placeholder="A">Oggetto:</label>
+              <input [(ngModel)]="frm_sendMail.Oggetto" name="Oggetto" class="form-control" id="Oggetto" placeholder="Digitare oggetto."
+              />
+            </div>
+            <div class="form-group">
+              <label for="Corpo" class="form-control-label">Testo:</label>
+              <textarea [(ngModel)]="frm_sendMail.Corpo" name="Corpo" class="form-control" id="Corpo" placeholder="Digitare testo da inviare."></textarea>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 </div>
