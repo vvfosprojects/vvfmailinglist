@@ -1,6 +1,8 @@
 <div *ngIf="!!userMsg" class="alert alert-success" role="alert">{{ userMsg }}</div>
 <div *ngIf="!!errorMsg" class="alert alert-danger" role="alert">{{ errorMsg }}</div>
-<div *ngIf="inFaseDiInvio" class="alert alert-warning" role="alert">Invio messaggio in corso...</div>
+<div *ngIf="inFaseDiInvio" class="alert alert-warning" role="alert">Invio messaggio in corso... 
+  <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+</div>
 
 <div class="card">
   <div class="card-header">
