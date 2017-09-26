@@ -19,10 +19,17 @@ namespace FlowControlledMailSender
 
             container.AddRegistration<MailEnqueuerWithFlowControl>(mailSenderRegistration);
 
+            //container.Register(typeof(ISendMail), () =>
+            //{
+            //    return new MailEnqueuerWithFlowControl(
+            //        new MailSender.SendMail_Fake_Delay(),
+            //        Convert.ToInt32(ConfigurationManager.AppSettings["maxMailPerMinute"]),
+            //        Convert.ToInt32(ConfigurationManager.AppSettings["maxRecipientCount"]));
+            //}, Lifestyle.Singleton);
             container.Register(typeof(ISendMail), () =>
             {
                 return new MailEnqueuerWithFlowControl(
-                    new MailSender.SendMail_Fake_Delay(),
+                    new MailSender.SendMail(),
                     Convert.ToInt32(ConfigurationManager.AppSettings["maxMailPerMinute"]),
                     Convert.ToInt32(ConfigurationManager.AppSettings["maxRecipientCount"]));
             }, Lifestyle.Singleton);

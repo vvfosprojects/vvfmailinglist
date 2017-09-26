@@ -65,22 +65,17 @@ namespace FlowControlledMailSender.MailEnqueuer
         private IEnumerable<Email> splitterEmail(Email email)
         {
             var emailSplit = new List<Email>();
-            var itemToCount = splitRecipient(email.To, emailSplit, email.Subject, email.Body, email.IsBodyHtml, recipientEnum.To);
-            var itemCcCount = splitRecipient(email.Cc, emailSplit, email.Subject, email.Body, email.IsBodyHtml, recipientEnum.Cc);
-            var itemBccCount = splitRecipient(email.Bcc, emailSplit, email.Subject, email.Body, email.IsBodyHtml, recipientEnum.Bcc);
 
-            var appoTo = new string[itemToCount];
-            var appoCc = new string[itemCcCount];
-            var appoBcc = new string[itemBccCount];
+            var item = -1;
 
-            appoTo.CopyTo(email.To, itemToCount);
-            emailSplit.Add(new Email(appoTo, null, null, email.Subject, email.Body, email.IsBodyHtml));
+            item = splitRecipient(email.To, emailSplit, email.Subject, email.Body, email.IsBodyHtml, recipientEnum.To);
+            log.DebugFormat("Recipient TO -> Totali {0} Split {1} ", email.To.Length, emailSplit.Count);
 
-            appoCc.CopyTo(email.Cc, itemToCount);
-            emailSplit.Add(new Email(null, appoCc, null, email.Subject, email.Body, email.IsBodyHtml));
+            item = splitRecipient(email.Cc, emailSplit, email.Subject, email.Body, email.IsBodyHtml, recipientEnum.Cc);
+            log.DebugFormat("Recipient CC -> Totali {0} Split {1} ", email.Cc.Length, emailSplit.Count);
 
-            appoBcc.CopyTo(email.Bcc, itemBccCount);
-            emailSplit.Add(new Email(null, null, appoBcc, email.Subject, email.Body, email.IsBodyHtml));
+            item = splitRecipient(email.Bcc, emailSplit, email.Subject, email.Body, email.IsBodyHtml, recipientEnum.Bcc);
+            log.DebugFormat("Recipient BCC -> Totali {0} Split {1} ", email.Bcc.Length, emailSplit.Count);
 
             return emailSplit;
         }
@@ -91,26 +86,76 @@ namespace FlowControlledMailSender.MailEnqueuer
 
             if (recipient.Length > this.maxRecipientCount)
             {
-                var splitRecipient = new string[this.maxRecipientCount];
                 var Index = 0;
-                for (var i = 0; i < (recipient.Length / this.maxRecipientCount); i++)
+                var quotient = recipient.Length / this.maxRecipientCount;
+                var remainder = recipient.Length % this.maxRecipientCount;
+                for(var i = 1; i <= quotient; i++)
                 {
-                    recipient.CopyTo(splitRecipient, Index);
+                    var splitRecipient = new string[this.maxRecipientCount];
+                    Array.Copy(recipient, Index, splitRecipient, 0, this.maxRecipientCount);
+                    Index += this.maxRecipientCount;
                     switch (recipientEnum)
                     {
                         case recipientEnum.Bcc:
-                            email.Add(new Email(null, null, splitRecipient, Subject, Body, IsBodyHtml));
+                            email.Add(new Email(new string[] { string.Empty }, 
+                                                new string[] { string.Empty }, 
+                                                splitRecipient, 
+                                                Subject, 
+                                                Body, IsBodyHtml));
                             break;
 
                         case recipientEnum.Cc:
-                            email.Add(new Email(null, splitRecipient, null, Subject, Body, IsBodyHtml));
+                            email.Add(new Email(new string[] { string.Empty }, 
+                                                splitRecipient, 
+                                                new string[] { string.Empty }, 
+                                                Subject, 
+                                                Body, 
+                                                IsBodyHtml));
                             break;
 
                         case recipientEnum.To:
-                            email.Add(new Email(splitRecipient, null, null, Subject, Body, IsBodyHtml));
+                            email.Add(new Email(splitRecipient, 
+                                                new string[] { string.Empty }, 
+                                                new string[] { string.Empty }, 
+                                                Subject, 
+                                                Body, 
+                                                IsBodyHtml));
                             break;
                     }
-                    Index += this.maxRecipientCount;
+                }
+                if (remainder > 0)
+                {
+                    var splitRecipient = new string[remainder];
+                    Array.Copy(recipient, Index, splitRecipient, 0, remainder);
+                    Index += remainder;
+                    switch (recipientEnum)
+                    {
+                        case recipientEnum.Bcc:
+                            email.Add(new Email(new string[] { string.Empty },
+                                                new string[] { string.Empty },
+                                                splitRecipient,
+                                                Subject,
+                                                Body, IsBodyHtml));
+                            break;
+
+                        case recipientEnum.Cc:
+                            email.Add(new Email(new string[] { string.Empty },
+                                                splitRecipient,
+                                                new string[] { string.Empty },
+                                                Subject,
+                                                Body,
+                                                IsBodyHtml));
+                            break;
+
+                        case recipientEnum.To:
+                            email.Add(new Email(splitRecipient,
+                                                new string[] { string.Empty },
+                                                new string[] { string.Empty },
+                                                Subject,
+                                                Body,
+                                                IsBodyHtml));
+                            break;
+                    }
                 }
                 RetCode = recipient.Length - Index;
             }

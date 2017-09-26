@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Bindings.cs" />
     <Compile Include="MailEnqueuer\MailEnqueuerWithFlowControl.cs" />
+    <Compile Include="MailSender\SendMail.cs" />
     <Compile Include="MailSender\SendMail_Fake_Delay.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

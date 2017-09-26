@@ -24,7 +24,6 @@
                       <input type="checkbox" value="{{item.id}}" name="{{item.id}}" [checked]="(sendMail.idListeDestinatarie && (sendMail.idListeDestinatarie.indexOf(item.id) >= 0) ? 'checked' : '')" (change)="updateSelectidListeDestinatarie($event)" autocomplete="off">{{item.nome}}
                     </label>
                 </div>
-                <div *ngIf="errormsg">"Error -> "{{errormsg}}</div>
               </div>
             </div>
           </div>

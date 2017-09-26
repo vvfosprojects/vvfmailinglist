@@ -10,13 +10,13 @@ namespace DomainClasses.MailManagement
             { "L1", new MailingList("L1")
                 {
                     Id = "L1",
-                    Emails = new string[] { "pippo", "pluto"}
+                    Emails = new string[] { "pippo@pippo.it", "pluto@pluto.it", "qui@qui.it", "quo@quo.it", "qua@qua.it" }
                 }
             },
             { "L2", new MailingList("L2")
                 {
                     Id = "L2",
-                    Emails = new string[] { "pippo", "topolino"}
+                    Emails = new string[] { "pippo@pippo.it", "topolino@totpolino.it", "paperino@paperino.it", "gastone@gastone.it", "gambadilegno@gambadilegno.it" }
                 }
             }
         };
