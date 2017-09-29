@@ -16,7 +16,7 @@ export class ComposeEmailComponent implements OnInit {
   errorMsg: string;
   userMsg: string;
   inFaseDiInvio: boolean = false;
-  mailingListIds = {};
+  mailingListIds = { "id1": true };
 
   constructor(private CES: ComposeEmailService) {
   }
@@ -91,8 +91,9 @@ export class ComposeEmailComponent implements OnInit {
     if (!this.frm_sendMail.Corpo)
       return false;
 
-    if (this.frm_sendMail.idListeDestinatarie.length == 0)
+    if (this.idListeSelezionate().length == 0)
       return false;
+
 
     return true;
   }
