@@ -16,6 +16,7 @@ export class ComposeEmailComponent implements OnInit {
   errorMsg: string;
   userMsg: string;
   inFaseDiInvio: boolean = false;
+  mailingListIds = {};
 
   constructor(private CES: ComposeEmailService) {
   }
@@ -94,5 +95,12 @@ export class ComposeEmailComponent implements OnInit {
       return false;
 
     return true;
+  }
+
+  private idListeSelezionate(): string[] {
+    let chiavi = Object.keys(this.mailingListIds);
+    let idSelezionati = chiavi
+      .filter(c => !!this.mailingListIds[c]);
+    return idSelezionati;
   }
 }

@@ -21,7 +21,7 @@ import { ComposeEmailFakeService } from "app/compose-email/compose-email-fake.se
     NgbModule.forRoot()
   ],
   providers: [
-    { provide: ComposeEmailService, useClass: ComposeEmailService }
+    { provide: ComposeEmailService, useClass: ComposeEmailFakeService }
   ],
   bootstrap: [
     AppComponent

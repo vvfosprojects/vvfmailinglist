@@ -1,6 +1,6 @@
 <div *ngIf="!!userMsg" class="alert alert-success" role="alert">{{ userMsg }}</div>
 <div *ngIf="!!errorMsg" class="alert alert-danger" role="alert">{{ errorMsg }}</div>
-<div *ngIf="inFaseDiInvio" class="alert alert-warning" role="alert">Invio messaggio in corso... 
+<div *ngIf="inFaseDiInvio" class="alert alert-warning" role="alert">Invio messaggio in corso...
   <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
 </div>
 
@@ -10,36 +10,33 @@
   </div>
   <div class="card-block">
     <div *ngIf="usermsg">{{usermsg}}</div>
-    <div class="modal-body">
-      <form>
-        <div class="row">
-          <div class="col-lg-3">
-            <div class="card">
-              <div class="card-header">
-                <label for="To" class="form-control-label" aria-placeholder="A">Destinatari</label>
-              </div>
-              <div class="card-block">
-                <div class="btn-group-vertical" data-toggle="buttons">
-                  <label class="btn btn-primary" *ngFor="let item of mailingListsInfo;">
-                      <input type="checkbox" value="{{item.id}}" name="{{item.id}}" [checked]="(sendMail.idListeDestinatarie && (sendMail.idListeDestinatarie.indexOf(item.id) >= 0) ? 'checked' : '')" (change)="updateSelectidListeDestinatarie($event)" autocomplete="off">{{item.nome}}
-                    </label>
-                </div>
-              </div>
-            </div>
+    <div class="row">
+      <div class="col-lg-3">
+        <div class="card">
+          <div class="card-header">
+            <label for="To" class="form-control-label" aria-placeholder="A">Destinatari</label>
           </div>
-          <div class="col-lg-9">
-            <div class="form-group">
-              <label for="Oggetto" class="form-control-label" aria-placeholder="A">Oggetto:</label>
-              <input [(ngModel)]="frm_sendMail.Oggetto" name="Oggetto" class="form-control" id="Oggetto" placeholder="Digitare oggetto."
-              />
+          <div class="card-block">
+            <div class="btn-group-vertical" data-toggle="buttons">
+              <label class="btn btn-primary" ngbButtonLabel *ngFor="let item of mailingListsInfo;">
+                      <input type="checkbox" ngbButton [(ngModel)]="mailingListIds[item.id]">{{item.nome}}
+                  </label>
             </div>
-            <div class="form-group">
-              <label for="Corpo" class="form-control-label">Testo:</label>
-              <textarea [(ngModel)]="frm_sendMail.Corpo" name="Corpo" class="form-control" id="Corpo" placeholder="Digitare testo da inviare."></textarea>
-            </div>
+            <div>{{ idListeSelezionate() | json }}</div>
           </div>
         </div>
-      </form>
+      </div>
+      <div class="col-lg-9">
+        <div class="form-group">
+          <label for="Oggetto" class="form-control-label" aria-placeholder="A">Oggetto:</label>
+          <input [(ngModel)]="frm_sendMail.Oggetto" name="Oggetto" class="form-control" id="Oggetto" placeholder="Digitare oggetto."
+          />
+        </div>
+        <div class="form-group">
+          <label for="Corpo" class="form-control-label">Testo:</label>
+          <textarea [(ngModel)]="frm_sendMail.Corpo" name="Corpo" class="form-control" id="Corpo" placeholder="Digitare testo da inviare."></textarea>
+        </div>
+      </div>
     </div>
   </div>
 </div>
