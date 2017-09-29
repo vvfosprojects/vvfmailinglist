@@ -14,11 +14,11 @@
       <form>
         <div class="row">
           <div class="col-lg-3">
-            <div class="form-group row">
-              <div class="col-lg-12 ">
-                <label for="To" class="form-control-label" aria-placeholder="A">A:</label>
+            <div class="card">
+              <div class="card-header">
+                <label for="To" class="form-control-label" aria-placeholder="A">Destinatari</label>
               </div>
-              <div class="col">
+              <div class="card-block">
                 <div class="btn-group-vertical" data-toggle="buttons">
                   <label class="btn btn-primary" *ngFor="let item of mailingListsInfo;">
                       <input type="checkbox" value="{{item.id}}" name="{{item.id}}" [checked]="(sendMail.idListeDestinatarie && (sendMail.idListeDestinatarie.indexOf(item.id) >= 0) ? 'checked' : '')" (change)="updateSelectidListeDestinatarie($event)" autocomplete="off">{{item.nome}}

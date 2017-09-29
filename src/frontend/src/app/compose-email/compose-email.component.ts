@@ -23,7 +23,6 @@ export class ComposeEmailComponent implements OnInit {
   ngOnInit() {
     this.getMailingListsInfo();
     this.frm_sendMail = new SendMail();
-    this.frm_sendMail.idListeDestinatarie = [];
   }
 
   getMailingListsInfo() {
@@ -82,6 +81,18 @@ export class ComposeEmailComponent implements OnInit {
   }
 
   private isValidForm(): boolean {
-    return !this.inFaseDiInvio && !!this.frm_sendMail.Oggetto && !!this.frm_sendMail.Corpo;
+    if (this.inFaseDiInvio)
+      return false;
+
+    if (!this.frm_sendMail.Oggetto)
+      return false;
+
+    if (!this.frm_sendMail.Corpo)
+      return false;
+
+    if (this.frm_sendMail.idListeDestinatarie.length == 0)
+      return false;
+
+    return true;
   }
 }

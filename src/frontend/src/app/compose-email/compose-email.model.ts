@@ -5,7 +5,7 @@ export class MailingListsInfo {
 }
 
 export class SendMail {
-    public idListeDestinatarie: string[];
+    public idListeDestinatarie: string[] = [];
     public Oggetto: string;
     public Corpo: string; 
 }
