@@ -17,10 +17,10 @@
             <label for="To" class="form-control-label" aria-placeholder="A">Destinatari</label>
           </div>
           <div class="card-block">
-            <div class="btn-group-vertical" data-toggle="buttons">
-              <label class="btn btn-primary" ngbButtonLabel *ngFor="let item of mailingListsInfo;">
-                      <input type="checkbox" ngbButton [(ngModel)]="mailingListIds[item.id]">{{item.nome}}
-                  </label>
+            <div class="btn-group-vertical"  data-toggle="buttons">
+              <label class="btn btn-primary" id="lblDestinatari" ngbButtonLabel *ngFor="let item of mailingListsInfo;">
+                <input type="checkbox" ngbButton [(ngModel)]="mailingListIds[item.id]">{{item.nome}}
+              </label>
             </div>
           </div>
         </div>
