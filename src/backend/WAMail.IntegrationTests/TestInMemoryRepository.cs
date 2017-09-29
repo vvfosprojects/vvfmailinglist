@@ -78,7 +78,7 @@ namespace WAMail.IntegrationTests
         }
 
         [Test]
-        public void UnaMailingListInseistenteNonPuoEssereAggiornata()
+        public void UnaMailingListInesistenteNonPuoEssereAggiornata()
         {
             var repository = new MailingList_InMemory();
             var mailingListInesistente = new MailingList("Belli")

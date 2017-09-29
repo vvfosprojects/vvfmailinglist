@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Http;
+using System.Web.Http.Results;
 using DomainClasses.MailManagement;
 
 namespace WAMail.Controllers
@@ -27,7 +28,7 @@ namespace WAMail.Controllers
         }
 
         // POST: api/ListManager
-        public void Post([FromBody]MailingList mailingList)
+        public IHttpActionResult Post([FromBody]MailingList mailingList)
         {
             if (!string.IsNullOrWhiteSpace(mailingList.Id))
             {
@@ -35,6 +36,8 @@ namespace WAMail.Controllers
             }
 
             mailingListRepository.Save(mailingList);
+
+            return Ok(new { id = mailingList.Id });
         }
 
         // PUT: api/ListManager/5
