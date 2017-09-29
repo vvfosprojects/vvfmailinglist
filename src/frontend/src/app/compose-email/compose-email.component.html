@@ -22,19 +22,18 @@
                       <input type="checkbox" ngbButton [(ngModel)]="mailingListIds[item.id]">{{item.nome}}
                   </label>
             </div>
-            <div>{{ idListeSelezionate() | json }}</div>
           </div>
         </div>
       </div>
       <div class="col-lg-9">
         <div class="form-group">
           <label for="Oggetto" class="form-control-label" aria-placeholder="A">Oggetto:</label>
-          <input [(ngModel)]="frm_sendMail.Oggetto" name="Oggetto" class="form-control" id="Oggetto" placeholder="Digitare oggetto."
+          <input [(ngModel)]="sendMailValue.Oggetto" name="Oggetto" class="form-control" id="Oggetto" placeholder="Digitare oggetto."
           />
         </div>
         <div class="form-group">
           <label for="Corpo" class="form-control-label">Testo:</label>
-          <textarea [(ngModel)]="frm_sendMail.Corpo" name="Corpo" class="form-control" id="Corpo" placeholder="Digitare testo da inviare."></textarea>
+          <textarea [(ngModel)]="sendMailValue.Corpo" name="Corpo" class="form-control" id="Corpo" placeholder="Digitare testo da inviare."></textarea>
         </div>
       </div>
     </div>

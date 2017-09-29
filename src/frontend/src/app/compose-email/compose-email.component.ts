@@ -11,19 +11,19 @@ import { MailingListsInfo, SendMail } from './compose-email.model';
 })
 export class ComposeEmailComponent implements OnInit {
   mailingListsInfo: MailingListsInfo[];
-  frm_sendMail: SendMail;
-  post_sendMail: SendMail;
+  sendMailValue: SendMail;
+  sendMailResponse: SendMail;
   errorMsg: string;
   userMsg: string;
   inFaseDiInvio: boolean = false;
-  mailingListIds = { "id1": true };
+  mailingListIds = { };
 
   constructor(private CES: ComposeEmailService) {
   }
 
   ngOnInit() {
     this.getMailingListsInfo();
-    this.frm_sendMail = new SendMail();
+    this.sendMailValue = new SendMail();
   }
 
   getMailingListsInfo() {
@@ -40,8 +40,8 @@ export class ComposeEmailComponent implements OnInit {
   }
 
   private pulisciForm() {
-    this.frm_sendMail.Oggetto = null;
-    this.frm_sendMail.Corpo = null;
+    this.sendMailValue.Oggetto = null;
+    this.sendMailValue.Corpo = null;
   }
 
   sendMail(sendMail: SendMail) {
@@ -50,7 +50,7 @@ export class ComposeEmailComponent implements OnInit {
     this.CES.sendMailObservable(sendMail)
       .subscribe(
       response => {
-        this.post_sendMail = response;
+        this.sendMailResponse = response;
         this.pulisciForm();
         this.userMsg = "Messaggio inviato con successo";
       },
@@ -63,38 +63,24 @@ export class ComposeEmailComponent implements OnInit {
       });
   }
 
-  updateSelectidListeDestinatarie(event) {
-    if (event.target.checked) {
-      if (!this.frm_sendMail.idListeDestinatarie.find(x => x == event.target.value)) {
-        this.frm_sendMail.idListeDestinatarie.push(event.target.value);
-      }
-    }
-    else {
-      if (this.frm_sendMail.idListeDestinatarie.find(x => x == event.target.value)) {
-        this.frm_sendMail.idListeDestinatarie.slice(event.target.value);
-      }
-    }
-  }
-
   Send() {
-    this.sendMail(this.frm_sendMail);
-    console.log("post -> ", this.frm_sendMail);
+    this.sendMail(this.sendMailValue);
   }
 
   private isValidForm(): boolean {
     if (this.inFaseDiInvio)
       return false;
 
-    if (!this.frm_sendMail.Oggetto)
+    if (!this.sendMailValue.Oggetto)
       return false;
 
-    if (!this.frm_sendMail.Corpo)
+    if (!this.sendMailValue.Corpo)
       return false;
 
     if (this.idListeSelezionate().length == 0)
       return false;
 
-
+    this.sendMailValue.idListeDestinatarie = this.idListeSelezionate(); 
     return true;
   }
 
