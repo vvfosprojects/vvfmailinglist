@@ -183,5 +183,38 @@ namespace WAMail.IntegrationTests
             }
             );
         }
+
+        [Test]
+        [Repeat(10)]
+        public void UnaListaPuoEssereCancellataPerId()
+        {
+            var repository = new MailingListRepository();
+            var mailingList1 = new MailingList("TestNomeDelete")
+            {
+                Emails = new List<string>()
+                {
+                    "pippo@prova.net",
+                    "pluto@prova.net",
+                    "topolino@prova.net"
+                }
+            };
+            var mailingList2 = new MailingList("TestNomeDelete1")
+            {
+                Emails = new List<string>()
+                {
+                    "pippo2@prova.net",
+                    "pluto2@prova.net",
+                    "topolino2@prova.net"
+                }
+            };
+
+            repository.Save(mailingList1);
+            var idDaEliminare = mailingList1.Id;
+            repository.Save(mailingList2);
+            repository.Delete(idDaEliminare);
+            var mailingLists = repository.Get();
+
+            Assert.AreEqual(new string[] { mailingList2.Id }, mailingLists.Select(ml => ml.Id));
+        }
     }
 }
