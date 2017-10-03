@@ -31,7 +31,7 @@ namespace WAMail.Controllers
         }
 
         // POST: api/EmailManager
-        public void Post([FromBody]SendMailDTO dto)
+        public IHttpActionResult Post([FromBody]SendMailDTO dto)
         {
             Thread.Sleep(2000);
             log.Debug("Invio mail...");
@@ -50,6 +50,8 @@ namespace WAMail.Controllers
             }
 
             log.Debug("Mail inviate");
+
+            return Ok(new { id = dto.IdListeDestinatarie });
         }
     }
 }

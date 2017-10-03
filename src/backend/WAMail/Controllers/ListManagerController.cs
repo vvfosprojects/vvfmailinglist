@@ -41,7 +41,7 @@ namespace WAMail.Controllers
         }
 
         // PUT: api/ListManager/5
-        public void Put([FromBody]MailingList mailingList)
+        public IHttpActionResult Put([FromBody]MailingList mailingList)
         {
             if (string.IsNullOrWhiteSpace(mailingList.Id))
             {
@@ -49,12 +49,16 @@ namespace WAMail.Controllers
             }
 
             mailingListRepository.Save(mailingList);
+
+            return Ok(new { id = mailingList.Id });
         }
 
         // DELETE: api/ListManager/5
-        public void Delete(string id)
+        public IHttpActionResult Delete(string id)
         {
             mailingListRepository.Delete(id);
+
+            return Ok(new { id = id });
         }
     }
 }

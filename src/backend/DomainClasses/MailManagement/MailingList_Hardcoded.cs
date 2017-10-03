@@ -23,7 +23,7 @@ namespace DomainClasses.MailManagement
 
         public void Delete(string id)
         {
-            throw new NotImplementedException();
+            ml.Remove(id);
         }
 
         public IEnumerable<MailingList> Get()
@@ -44,7 +44,8 @@ namespace DomainClasses.MailManagement
 
         public void Save(MailingList mailingList)
         {
-            throw new NotImplementedException();
+            mailingList.InitializeId();
+            ml.Add(mailingList.Id, mailingList);
         }
     }
 }
