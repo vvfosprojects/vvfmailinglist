@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgModel } from '@angular/forms';
 
 import { ComposeEmailService } from './compose-email.service';
-import { MailingListsInfo, SendMail } from './compose-email.model';
+import { MailingListsInfo, SendMail, BackendCheck } from './compose-email.model';
 
 @Component({
   selector: 'compose-email',
@@ -22,8 +22,23 @@ export class ComposeEmailComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getMailingListsInfo();
+    this.getBackendCheck();
     this.sendMailValue = new SendMail();
+  }
+
+  getBackendCheck() {
+    this.CES.getBackendCheckObservable()
+      .subscribe(
+        response => {
+          if (response == "OK") {
+            this.getMailingListsInfo();
+          }
+          else {
+            this.errorMsg = "Il backend è irraggiungibile. Non sarà possibile inviare email.";
+          }   
+        },
+        error => this.errorMsg = "Il backend è irraggiungibile. Non sarà possibile inviare email."
+      );
   }
 
   getMailingListsInfo() {

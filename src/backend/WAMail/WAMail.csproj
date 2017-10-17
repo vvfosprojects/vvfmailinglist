@@ -121,6 +121,7 @@
   <ItemGroup>
     <Compile Include="App_Start\SimpleInjectorWebApiInitializer.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\BackendCheckController.cs" />
     <Compile Include="Controllers\EmailManagerController.cs" />
     <Compile Include="Controllers\ListManagerController.cs" />
     <Compile Include="Global.asax.cs">
