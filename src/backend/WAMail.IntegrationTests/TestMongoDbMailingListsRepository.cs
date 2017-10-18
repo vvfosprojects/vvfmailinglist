@@ -12,23 +12,25 @@ namespace WAMail.IntegrationTests
     [TestFixture]
     public class TestMongoDbMailingListsRepository
     {
+        private readonly string connectionString = "mongodb://localhost:27017/vvfmailinglist_integrationTests";
+
         [OneTimeSetUp]
         public void OneTimeSetup()
         {
-            new DbContext().DropMailingListCollection();
+            new DbContext(connectionString).DropMailingListCollection();
         }
 
         [TearDown]
         public void TearDown()
         {
-            new DbContext().DropMailingListCollection();
+            new DbContext(connectionString).DropMailingListCollection();
         }
 
         [Test]
         [Repeat(10)]
         public void UnaNuovaListaVieneSalvataConIdNonNullo()
         {
-            var repository = new Persistence.MongoDB.MailingListRepository();
+            var repository = new Persistence.MongoDB.MailingListRepository(new DbContext(connectionString));
             var mailingList = new MailingList("TestNome")
             {
                 Emails = new List<string>()
@@ -49,7 +51,7 @@ namespace WAMail.IntegrationTests
         [Repeat(10)]
         public void UnaListaPuoEssereSalvata()
         {
-            var repository = new MailingListRepository();
+            var repository = new MailingListRepository(new DbContext(connectionString));
             var mailingList = new MailingList("TestNome")
             {
                 Emails = new List<string>()
@@ -70,7 +72,7 @@ namespace WAMail.IntegrationTests
         [Repeat(10)]
         public void UnaListaPuoEssereAggiornata()
         {
-            var repository = new MailingListRepository();
+            var repository = new MailingListRepository(new DbContext(connectionString));
             var mailingList = new MailingList("TestNome")
             {
                 Emails = new List<string>()
@@ -93,7 +95,7 @@ namespace WAMail.IntegrationTests
         [Repeat(10)]
         public void DueListePossonoEssereSalvate()
         {
-            var repository = new MailingListRepository();
+            var repository = new MailingListRepository(new DbContext(connectionString));
             var mailingList1 = new MailingList("TestNome1")
             {
                 Emails = new List<string>()
@@ -129,7 +131,7 @@ namespace WAMail.IntegrationTests
         [Repeat(10)]
         public void UnaListaPuoEssereRecuperataPerId()
         {
-            var repository = new MailingListRepository();
+            var repository = new MailingListRepository(new DbContext(connectionString));
             var mailingList = new MailingList("TestNome")
             {
                 Emails = new List<string>()
@@ -151,7 +153,7 @@ namespace WAMail.IntegrationTests
         [Repeat(10)]
         public void DueListePossonoEssereRecuperatePerId()
         {
-            var repository = new MailingListRepository();
+            var repository = new MailingListRepository(new DbContext(connectionString));
             var mailingList1 = new MailingList("TestNome1")
             {
                 Emails = new List<string>()
@@ -188,7 +190,7 @@ namespace WAMail.IntegrationTests
         [Repeat(10)]
         public void UnaListaPuoEssereCancellataPerId()
         {
-            var repository = new MailingListRepository();
+            var repository = new MailingListRepository(new DbContext(connectionString));
             var mailingList1 = new MailingList("TestNomeDelete")
             {
                 Emails = new List<string>()

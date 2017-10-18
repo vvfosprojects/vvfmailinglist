@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 using SimpleInjector;
 using SimpleInjector.Packaging;
 
-namespace DomainClasses
+namespace WAMail.Infrastructure
 {
     public class Bindings : IPackage
     {
         public void RegisterServices(Container container)
         {
-            //container.Register<DomainClasses.MailManagement.IMailingListRepository, MailManagement.MailingList_Hardcoded>(Lifestyle.Singleton);
+            container.Register<DomainClasses.Infrastructure.IAppSettings, AppSettings_WebConfig>(Lifestyle.Singleton);
         }
     }
 }

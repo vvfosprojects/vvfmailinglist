@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MailingListsInfo, SendMail, BackendCheck } from './compose-email.model';
+import { MailingListsInfo, SendMail } from './compose-email.model';
 
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';

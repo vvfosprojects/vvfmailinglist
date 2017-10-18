@@ -127,6 +127,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\AppSettings_WebConfig.cs" />
+    <Compile Include="Infrastructure\Bindings.cs" />
     <Compile Include="Infrastructure\Result.cs" />
     <Compile Include="Models\MailingListsInfoDTO.cs" />
     <Compile Include="Models\SendMailDTO.cs" />

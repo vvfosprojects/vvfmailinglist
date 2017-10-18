@@ -10,7 +10,12 @@ namespace Persistence.MongoDB
 {
     internal class MailingListRepository : IMailingListRepository
     {
-        private readonly DbContext dbContext = new DbContext();
+        private readonly DbContext dbContext;
+
+        public MailingListRepository(DbContext dbContext)
+        {
+            this.dbContext = dbContext;
+        }
 
         public void Delete(string id)
         {

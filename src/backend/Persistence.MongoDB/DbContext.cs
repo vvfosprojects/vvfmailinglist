@@ -18,7 +18,7 @@ namespace Persistence.MongoDB
         private static IMongoDatabase database;
         private readonly string mailingListsCollectionName = "mailingLists";
 
-        public DbContext()
+        public DbContext(string connectionString)
         {
             if (database == null)
             {
@@ -35,8 +35,9 @@ namespace Persistence.MongoDB
                         .SetSerializer(new StringSerializer(BsonType.ObjectId));
                 });
 
-                var client = new MongoClient();
-                database = client.GetDatabase("vvfmailinglist");
+                var url = new MongoUrl(connectionString);
+                var client = new MongoClient(url);
+                database = client.GetDatabase(url.DatabaseName);
             }
         }
 

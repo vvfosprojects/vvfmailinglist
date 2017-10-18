@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgModel } from '@angular/forms';
 
 import { ComposeEmailService } from './compose-email.service';
-import { MailingListsInfo, SendMail, BackendCheck } from './compose-email.model';
+import { MailingListsInfo, SendMail } from './compose-email.model';
 
 @Component({
   selector: 'compose-email',
