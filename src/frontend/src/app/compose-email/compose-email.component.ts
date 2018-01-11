@@ -82,7 +82,7 @@ export class ComposeEmailComponent implements OnInit {
     this.sendMail(this.sendMailValue);
   }
 
-  private isValidForm(): boolean {
+  public isValidForm(): boolean {
     if (this.inFaseDiInvio)
       return false;
 
